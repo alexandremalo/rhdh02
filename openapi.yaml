@@ -1,0 +1,20 @@
+---
+openapi: 3.0.3
+info:
+  title: rhdh02 API
+  version: 1.0.0
+servers:
+- url: http://localdev:8080/
+  description: Dev environnement
+paths:
+  /hello:
+    get:
+      tags:
+      - Example Resource
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string

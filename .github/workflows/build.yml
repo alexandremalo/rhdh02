@@ -1,0 +1,32 @@
+name: Build and Push with Podman
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Podman
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y podman
+
+      - name: Podman login
+        env:
+          REGISTRY_USER: ${{ secrets.REGISTRY_USER }}
+          REGISTRY_PASS: ${{ secrets.REGISTRY_PASS }}
+        run: |
+          podman login -u "$REGISTRY_USER" -p "$REGISTRY_PASS" quay.io
+
+      - name: Build image
+        run: |
+          podman build -t quay.io/alexmalo/devhub-demo:${{ github.event.repository.name }}-dev .
+
+      - name: Push image
+        run: |
+          podman push quay.io/alexmalo/devhub-demo:${{ github.event.repository.name }}-dev

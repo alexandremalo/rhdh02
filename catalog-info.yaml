@@ -1,0 +1,45 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: 'rhdh02'
+  owner: user1
+  title: 'rhdh02'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    #dev.azure.com/project-repo: test/rhdh02
+    github.com/project-slug: alexandremalo/rhdh02
+    quay.io/repository-slug: alexmalo/devhub-demo
+    argocd/app-selector: rht-gitops.com/janus-argocd=rhdh02-dev
+    backstage.io/kubernetes-id: rhdh02
+  links:
+    - url: http://rhdh02-dev-alex-gitops.apps.ocp.malo.lab/
+      title: Dev External Route
+      icon: web
+    # - url: https://devspaces.apps.cluster-lpq8z.sandbox2416.opentlc.com/#https://demo-devhub@dev.azure.com/demo-devhub/test/_git/rhdh02
+    #   title: OpenShift Dev Spaces (VS Code)
+    #   icon: web
+    - url: vscode://vscode.git/clone?url=git@github.com:alexandremalo/rhdh02.git
+      title: Local dev (VS Code)
+      icon: web
+    - url: https://github.com/alexandremalo/rhdh02-gitops
+      title: Gitops Manifests
+      icon: web
+spec:
+  type: website
+  lifecycle: production
+  owner: architects
+  providesApis:
+    - rhdh02
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: 'rhdh02'
+spec:
+  type: openapi
+  lifecycle: production
+  owner: architects
+  definition:
+    $text: ./openapi.yaml
+

@@ -1,0 +1,49 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+  branches:
+    include:
+    - main
+  tags:
+    include:
+    - '*'
+
+resources:
+- repo: self
+
+variables:
+  tag: 'snapshot-$(Build.SourceVersion)'
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: Docker@2
+      displayName: Build an image
+      condition: not(contains(variables['Build.SourceBranch'], 'refs/tags/'))
+      inputs:
+        command: buildAndPush
+        containerRegistry: 'local-demo-quay-registry'
+        repository: 'demo-devhub/rhdh02'
+        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        tags: |
+          $(tag)
+          latest
+    - task: Docker@2
+      displayName: Build and push a release image
+      condition: contains(variables['Build.SourceBranch'], 'refs/tags/')
+      inputs:
+        command: buildAndPush
+        containerRegistry: 'local-demo-quay-registry'
+        repository: 'demo-devhub/rhdh02'
+        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        tags: |
+          $(Build.SourceBranchName)
+     
