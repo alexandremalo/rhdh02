@@ -8,7 +8,7 @@ metadata:
     backstage.io/techdocs-ref: dir:.
     #dev.azure.com/project-repo: test/rhdh02
     github.com/project-slug: alexandremalo/rhdh02
-    quay.io/repository-slug: quay.io/alexmalo/devhub-demo
+    quay.io/repository-slug: alexmalo/devhub-demo
     argocd/app-selector: rhdh02-dev
     backstage.io/kubernetes-id: rhdh02
   links:
